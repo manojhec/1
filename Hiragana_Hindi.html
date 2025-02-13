@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hiragana Hindi</title>
+<style>
+body {
+  font-family: sans-serif;
+}
+.hiragana-char {
+  display: inline-block;
+  font-size: 5em;
+  margin: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  top: -30px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f0f0f0;
+  padding: 5px;
+  border-radius: 5px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.hiragana-char:hover .tooltip {
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+<br>Let's Learn Kana!<br><br>
+<div id="hiragana-container"></div>
+
+<script>
+const hiraganaChars = {
+  "あ": "आ", "い": "ई", "う": "ऊ", "え": "ए", "お": "ओ",
+  "か": "का", "き": "की", "く": "कु", "け": "के", "こ": "को",
+  "さ": "सा", "し": "शी", "す": "सु", "せ": "से", "そ": "सो",
+  "た": "ता", "ち": "ची", "つ": "त्सु", "て": "ते", "と": "तो",
+  "な": "ना", "に": "नी", "ぬ": "नु", "ね": "ने", "の": "नो",
+  "は": "हा", "ひ": "ही", "ふ": "फु", "へ": "हे", "ほ": "हो",
+  "ま": "मा", "み": "मी", "む": "मु", "め": "मे", "も": "मो",
+  "や": "या", "ゆ": "यु", "よ": "यो",
+  "ら": "रा", "り": "री", "る": "रु", "れ": "रे", "ろ": "रो",
+  "わ": "वा", "を": "वो", "ん": "न"
+};
+
+const hiraganaContainer = document.getElementById("hiragana-container");
+
+function shuffle(object) {
+    const array = Object.entries(object);
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return Object.fromEntries(array);
+}
+
+const shuffledHiragana = shuffle(hiraganaChars);
+
+for (const char in shuffledHiragana) {
+  const hindiReading = shuffledHiragana[char]; // Get Hindi reading
+  const charDiv = document.createElement("div");
+  charDiv.classList.add("hiragana-char");
+  charDiv.textContent = char;
+
+  const tooltipDiv = document.createElement("div");
+  tooltipDiv.classList.add("tooltip");
+  tooltipDiv.textContent = hindiReading; // Set Hindi reading as tooltip text
+  charDiv.appendChild(tooltipDiv);
+
+  hiraganaContainer.appendChild(charDiv);
+}
+</script>
+
+</body>
+</html>

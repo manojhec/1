@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Katakana Hindi</title>
+<style>
+body {
+  font-family: sans-serif;
+}
+.katakana-char {
+  display: inline-block;
+  font-size: 4em;
+  margin: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f0f0f0;
+  padding: 5px;
+  border-radius: 5px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.katakana-char:hover .tooltip {
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+<br>Let's Learn Kana!<br>
+<div id="katakana-container"></div>
+
+<script>
+const katakanaChars = {
+  "ア": "आ", "イ": "ई", "ウ": "ऊ", "エ": "ए", "オ": "ओ",
+  "カ": "का", "キ": "की", "ク": "कु", "ケ": "के", "コ": "को",
+  "サ": "सा", "シ": "शी", "ス": "सु", "セ": "से", "ソ": "सो",
+  "タ": "ता", "チ": "ची", "ツ": "त्सु", "テ": "ते", "ト": "तो",
+  "ナ": "ना", "ニ": "नी", "ヌ": "नु", "ネ": "ने", "ノ": "नो",
+  "ハ": "हा", "ヒ": "ही", "フ": "फु", "ヘ": "हे", "ホ": "हो",
+  "マ": "मा", "ミ": "मी", "ム": "मु", "メ": "मे", "モ": "मो",
+  "ヤ": "या", "ユ": "यु", "ヨ": "यो",
+  "ラ": "रा", "リ": "री", "ル": "रु", "レ": "रे", "ロ": "रो",
+  "ワ": "वा", "ヲ": "वो", "ン": "न",
+  "ヴ": "वु", "ガ": "गा", "ギ": "गी", "グ": "गु", "ゲ": "गे", "ゴ": "गो",
+  "ザ": "ज़ा", "ジ": "जी", "ズ": "ज़ु", "ゼ": "ज़े", "ゾ": "ज़ो",
+  "ダ": "दा", "ヂ": "जी", "ヅ": "ज़ु", "デ": "दे", "ド": "दो",
+  "バ": "बा", "ビ": "बी", "ブ": "बु", "ベ": "बे", "ボ": "बो",
+  "パ": "पा", "ピ": "पी", "プ": "पु", "ペ": "पे", "ポ": "पो"
+};
+
+const katakanaContainer = document.getElementById("katakana-container");
+
+function shuffle(object) {
+    const array = Object.entries(object);
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return Object.fromEntries(array);
+}
+
+const shuffledKatakana = shuffle(katakanaChars);
+
+for (const char in shuffledKatakana) {
+  const hindiReading = shuffledKatakana[char];
+  const charDiv = document.createElement("div");
+  charDiv.classList.add("katakana-char");
+  charDiv.textContent = char;
+
+  const tooltipDiv = document.createElement("div");
+  tooltipDiv.classList.add("tooltip");
+  tooltipDiv.textContent = hindiReading;
+  charDiv.appendChild(tooltipDiv);
+
+  katakanaContainer.appendChild(charDiv);
+}
+</script>
+
+</body>
+</html>
