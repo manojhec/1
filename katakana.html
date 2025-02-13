@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Katakana Randomizer</title>
+<style>
+body {
+  font-family: sans-serif;
+}
+.katakana-char { /* More specific class name */
+  display: inline-block;
+  font-size: 4em;
+  margin: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f0f0f0;
+  padding: 5px;
+  border-radius: 5px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.katakana-char:hover .tooltip {
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+<br><br><br>
+<div id="katakana-container"></div>
+
+<script>
+const katakanaChars = {
+  "ア": "a", "イ": "i", "ウ": "u", "エ": "e", "オ": "o",
+  "カ": "ka", "キ": "ki", "ク": "ku", "ケ": "ke", "コ": "ko",
+  "サ": "sa", "シ": "shi", "ス": "su", "セ": "se", "ソ": "so",
+  "タ": "ta", "チ": "chi", "ツ": "tsu", "テ": "te", "ト": "to",
+  "ナ": "na", "ニ": "ni", "ヌ": "nu", "ネ": "ne", "ノ": "no",
+  "ハ": "ha", "ヒ": "hi", "フ": "fu", "ヘ": "he", "ホ": "ho",
+  "マ": "ma", "ミ": "mi", "ム": "mu", "メ": "me", "モ": "mo",
+  "ヤ": "ya", "ユ": "yu", "ヨ": "yo",
+  "ラ": "ra", "リ": "ri", "ル": "ru", "レ": "re", "ロ": "ro",
+  "ワ": "wa", "ヲ": "wo", "ン": "n",
+  "ヴ": "vu", "ガ": "ga", "ギ": "gi", "グ": "gu", "ゲ": "ge", "ゴ": "go",
+  "ザ": "za", "ジ": "ji", "ズ": "zu", "ゼ": "ze", "ゾ": "zo",
+  "ダ": "da", "ヂ": "ji", "ヅ": "zu", "デ": "de", "ド": "do",
+  "バ": "ba", "ビ": "bi", "ブ": "bu", "ベ": "be", "ボ": "bo",
+  "パ": "pa", "ピ": "pi", "プ": "pu", "ペ": "pe", "ポ": "po"
+};
+
+const katakanaContainer = document.getElementById("katakana-container");
+
+function shuffle(object) {
+    const array = Object.entries(object);
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return Object.fromEntries(array);
+}
+
+const shuffledKatakana = shuffle(katakanaChars);
+
+for (const char in shuffledKatakana) {
+  const reading = shuffledKatakana[char];
+  const charDiv = document.createElement("div");
+  charDiv.classList.add("katakana-char"); // Use specific class
+  charDiv.textContent = char;
+
+  const tooltipDiv = document.createElement("div");
+  tooltipDiv.classList.add("tooltip");
+  tooltipDiv.textContent = reading;
+  charDiv.appendChild(tooltipDiv);
+
+  katakanaContainer.appendChild(charDiv);
+}
+</script>
+
+</body>
+</html>
