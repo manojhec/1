@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Japanese Malayalam</title>
+<style>
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    cursor: default;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px; /* Adjust as needed */
+    background-color: #f9f9f9;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px; /* Adjust if tooltip is not centered */
+    opacity: 0;
+    transition: opacity 0.5s;
+    font-family: 'Noto Sans Malayalam', sans-serif, sans-serif; /* Fallback font */
+    white-space: nowrap; /* Prevent tooltip text from wrapping */
+    font-size: 14px; /* Adjust tooltip font size */
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  body {
+    font-family: sans-serif;
+  }
+
+  #characterDisplay {
+    font-size: 29px;
+    display: flex; /* Arrange characters in a line */
+    flex-wrap: wrap; /* Allow wrapping to the next line */
+    gap: 10px;    /* Add some space between characters */
+  }
+</style>
+</head>
+<body>
+
+<h1>Japanese Malayalam</h1>
+
+<div id="characterDisplay"></div>
+<button id="toggleButton">Switch to Katakana</button>
+
+<script>
+  const characterDisplay = document.getElementById('characterDisplay');
+  const toggleButton = document.getElementById('toggleButton');
+  let currentMode = 'hiragana';
+const hiraganaChars = {
+    "あ": "അ", "い": "ഇ", "う": "ഉ", "え": "എ", "お": "ഒ",
+    "か": "ക", "き": "കി", "く": "കു", "け": "കെ", "こ": "കൊ",
+    "さ": "സ", "し": "ശി", "す": "സു", "せ": "സെ", "そ": "സോ",
+    "た": "ത", "ち": "ചി", "つ": "ത്സു", "て": "തെ", "と": "ടോ",
+    "な": "ന", "に": "നി", "ぬ": "നു", "ね": "നെ", "の": "നോ",
+    "は": "ഹ", "ひ": "ഹി", "ふ": "ഫു", "へ": "ഹെ", "ほ": "ഹോ",
+    "ま": "മ", "み": "മി", "む": "മു", "め": "മെ", "も": "മോ",
+    "や": "യ", "ゆ": "യു", "よ": "യോ",
+    "ら": "ര", "り": "രി", "る": "രു", "れ": "രെ", "ろ": "രോ",
+    "わ": "വ", "を": "വോ",
+    "ん": "ം",
+    "が": "ഗ", "ぎ": "ഗി", "ぐ": "ഗു", "げ": "ഗെ", "ご": "ഗോ",
+    "ざ": "സ", "じ": "ജി", "ず": "സു", "ぜ": "സെ", "ぞ": "സോ",
+    "だ": "ദ", "ぢ": "ജി", "づ": "ദു", "で": "ദെ", "ど": "ഡോ",
+    "ば": "ബ", "び": "ബി", "ぶ": "ബു", "べ": "ബെ", "ぼ": "ബോ",
+    "ぱ": "പ", "ぴ": "പി", "ぷ": "പു", "ぺ": "പെ", "ぽ": "പോ",
+    "きゃ": "ക്യ", "きゅ": "ക്യു", "きょ": "ക്യോ",
+    "しゃ": "ശ്യ", "しゅ": "ശു", "しょ": "ശോ",
+    "ちゃ": "ച്യ", "ちゅ": "ചു", "ちょ": "ചോ",
+    "にゃ": "ണ്യ", "にゅ": "ന്യു", "にょ": "ണ്യോ",
+    "ひゃ": "ഹ്യ", "ひゅ": "ഹു", "ひょ": "ഹ്യോ",
+    "みゃ": "മ്യ", "みゅ": "മ്യു", "みょ": "മ്യോ",
+    "りゃ": "ര്യ", "りゅ": "ര്യു", "りょ": "ര്യോ",
+    "ぎゃ": "ഗ്യ", "ぎゅ": "ഗ്യൂ", "ぎょ": "ഗ്യോ",
+    "じゃ": "ജ്യ", "じゅ": "ജു", "じょ": "ജോ",
+    "ぢゃ": "ജ്യ", "ぢゅ": "ജു", "ぢょ": "ജോ",
+    "びゃ": "ബ്യ", "びゅ": "ബ്യു", "びょ": "ബ്യോ",
+    "ぴゃ": "പ്യ", "ぴゅ": "പ്യു", "ぴょ": "പ്യോ"
+  };
+  const katakanaChars = {
+    "ア": "അ", "イ": "ഇ", "ウ": "ഉ", "エ": "എ", "オ": "ഒ",
+    "カ": "ക", "キ": "കി", "ク": "കു", "ケ": "കെ", "コ": "കൊ",
+    "サ": "സ", "シ": "ശി", "ス": "സു", "セ": "സെ", "ソ": "സോ",
+    "タ": "ത", "チ": "ചി", "ツ": "ത്സു", "テ": "തെ", "ト": "ടോ",
+    "ナ": "ന", "ニ": "നി", "ヌ": "നു", "ネ": "നെ", "ノ": "നോ",
+    "ハ": "ഹ", "ヒ": "ഹി", "フ": "ഫു", "ヘ": "ഹെ", "ホ": "ഹോ",
+    "マ": "മ", "ミ": "മി", "ム": "മു", "メ": "മെ", "モ": "മോ",
+    "ヤ": "യ", "ユ": "യു", "ヨ": "യോ",
+    "ラ": "ര", "リ": "രി", "ル": "രു", "レ": "രെ", "ロ": "രോ",
+    "ワ": "വ", "ヲ": "വോ", // Note: ヲ is usually pronounced "o"
+    "ン": "ം",
+    "ガ": "ഗ", "ギ": "ഗി", "グ": "ഗു", "ゲ": "ഗെ", "ゴ": "ഗോ",
+    "ザ": "സ", "ジ": "ജി", "ズ": "സു", "ゼ": "സെ", "ゾ": "സോ",
+    "ダ": "ദ", "ヂ": "ജി", "ヅ": "ദു", "デ": "ദെ", "ド": "ഡോ", // ヂ and ヅ are rare, usually ジ and ズ
+    "バ": "ബ", "ビ": "ബി", "ブ": "ബു", "ベ": "ബെ", "ボ": "ബോ",
+    "パ": "പ", "ピ": "പി", "プ": "പു", "ペ": "പെ", "ポ": "പോ",
+    "キャ": "ക്യ", "キュ": "ക്യു", "キョ": "ക്യോ",
+    "シャ": "ശ്യ", "シュ": "ശു", "ショ": "ശോ",
+    "チャ": "ച്യ", "チュ": "ചു", "チョ": "ചോ",
+    "ニャ": "ണ്യ", "ニュ": "ന്യു", "ニョ": "ണ്യോ",
+    "ヒャ": "ഹ്യ", "ヒュ": "ഹു", "ヒョ": "ഹ്യോ",
+    "ミャ": "മ്യ", "ミュ": "മ്യു", "ミョ": "മ്യോ",
+    "リャ": "ര്യ", "リュ": "ര്യു", "リョ": "ര്യോ",
+    "ギャ": "ഗ്യ", "ギュ": "ഗ്യൂ", "ギョ": "ഗ്യോ",
+    "ジャ": "ജ്യ", "ジュ": "ജു", "ジョ": "ജോ",
+    "ヂャ": "ജ്യ", "ヂュ": "ജു", "ヂョ": "ജോ", // Same pronunciation as ジャ, ジュ, ジョ
+    "ビャ": "ബ്യ", "ビュ": "ബ്യു", "ビョ": "ബ്യോ",
+    "ピャ": "പ്യ", "ピュ": "പ്യു", "ピョ": "പ്യോ",
+    "ヴ": "വ്", //  For foreign sounds (like "v")
+    "ヴァ": "വ", "ヴィ": "വി", "ヴゥ": "വു", "ヴェ": "വെ", "ヴォ": "വോ" // For "va", "vi", "vu", "ve", "vo"
+  };
+  function displayCharacters() {
+    const chars = currentMode === 'hiragana' ? hiraganaChars : katakanaChars;
+    let html = '';
+    for (const char in chars) {
+      html += `<div class="tooltip">${char}<span class="tooltiptext">${chars[char]}</span></div>`;
+    }
+    characterDisplay.innerHTML = html;
+  }
+
+  displayCharacters();
+
+  toggleButton.addEventListener('click', () => {
+    currentMode = currentMode === 'hiragana' ? 'katakana' : 'hiragana';
+    toggleButton.textContent = currentMode === 'hiragana' ? 'Switch to Katakana' : 'Switch to Hiragana';
+    displayCharacters();
+  });
+</script>
+
+</body>
+</html>
