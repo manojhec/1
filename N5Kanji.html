@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Kanji</title>
+<style>
+body {
+  font-family: sans-serif;
+}
+.kanji-char {
+  display: inline-block;
+  font-size: 5em;
+  margin: 15px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tooltip {
+  position:absolute;
+  top: -30px; /* Adjust as needed */
+  left: clamp(10px, 30%, calc(100vw - 100px));
+  left:10px;
+  background-color: #f0f0f0;
+  padding: 5px;
+  border-radius: 5px;
+  /*white-space: nowrap;*/
+  opacity: 0;
+  transition: opacity 0.1s;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.kanji-char:hover .tooltip {
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+<br>Let's Learn Kaji!<br><br>
+<div id="kanji-container"></div>
+
+<script>
+const kanji = {
+  "日": "nichi, jitsu, hi (day, sun)",
+  "月": "getsu, gatsu, tsuki (month, moon)",
+  "火": "ka, hi (fire)",
+  "水": "sui, mizu (water)",
+  "木": "moku, boku, ki (tree, wood)",
+  "金": "kin, kon, kane (gold, money)",
+  "土": "do, to, tsuchi (earth, soil)",
+  "山": "san, yama (mountain)",
+  "川": "sen, kawa (river)",
+  "田": "den, ta (rice field)",
+  "一": "ichi, itsu, hito (one)",
+  "二": "ni, futa (two)",
+  "三": "san, mi (three)",
+  "四": "shi, yo, yon (four)",
+  "五": "go, itsu (five)",
+  "六": "roku, mu (six)",
+  "七": "shichi, nana (seven)",
+  "八": "hachi, ya (eight)",
+  "九": "kyuu, ku, kokono (nine)",
+  "十": "juu, tou (ten)",
+  "百": "hyaku (hundred)",
+  "千": "sen, chi (thousand)",
+  "万": "man, ban (ten thousand)",
+  "円": "en, maru (yen, circle)",
+  "人": "jin, nin, hito (person)",
+  "女": "jo, onna (woman)",
+  "男": "dan, nan, otoko (man)",
+  "子": "shi, su, ko (child)",
+  "父": "fu, chichi (father)",
+  "母": "bo, haha (mother)",
+  "本": "hon, moto (book, origin)",
+  "中": "chuu, naka (middle, inside)",
+  "大": "dai, tai, oo (big)",
+  "小": "shou, chii, ko (small)",
+  "上": "jou, ue, aga (up, above)",
+  "下": "ka, ge, shita, sa (down, below)",
+  "左": "sa, hidari (left)",
+  "右": "u, yuu, migi (right)",
+  "行": "kou, gyou, i (go)",
+  "来": "rai, ku (come)",
+  "出": "shutsu, de, da (exit, go out)",
+  "入": "nyuu, hai, i (enter, put in)",
+  "見": "ken, mi (see, look)",
+  "聞": "bun, mon, ki (hear, listen)",
+  "書": "sho, ka (write)",
+  "読": "doku, yo (read)",
+  "食": "shoku, ta (eat)",
+  "飲": "in, nomi (drink)",
+  "話": "wa, hana (speak, talk)",
+  "買": "bai, ka (buy)"
+};
+
+const kanjiContainer = document.getElementById("kanji-container");
+
+function shuffle(object) {
+    const array = Object.entries(object);
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return Object.fromEntries(array);
+}
+
+const shuffledKanji = shuffle(kanji);
+
+for (const char in shuffledKanji) {
+  const hindiReading = shuffledKanji[char]; // Get Hindi reading
+  const charDiv = document.createElement("div");
+  charDiv.classList.add("kanji-char");
+  charDiv.textContent = char;
+
+  const tooltipDiv = document.createElement("div");
+  tooltipDiv.classList.add("tooltip");
+  tooltipDiv.textContent = hindiReading; // Set Hindi reading as tooltip text
+  charDiv.appendChild(tooltipDiv);
+
+  kanjiContainer.appendChild(charDiv);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Kanji</title>
+<style>
+body {
+  font-family: sans-serif;
+}
+.kanji-char {
+  display: inline-block;
+  font-size: 5em;
+  margin: 15px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tooltip {
+  position:absolute;
+  top: -30px; /* Adjust as needed */
+  left: clamp(10px, 30%, calc(100vw - 100px));
+  left:10px;
+  background-color: #f0f0f0;
+  padding: 5px;
+  border-radius: 5px;
+  /*white-space: nowrap;*/
+  opacity: 0;
+  transition: opacity 0.1s;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.kanji-char:hover .tooltip {
+  opacity: 1;
+}
+</style>
+</head>
+<body>
+<br>Let's Learn Kaji!<br><br>
+<div id="kanji-container"></div>
+
+<script>
+const kanji = {
+  "会": "kai, e, a (meeting, meet)",
+  "同": "dou, ona (same, agree)",
+  "事": "ji, zu, koto (matter, thing, incident)",
+  "自": "ji, shi, mizuka (self)",
+  "社": "sha, ya (company, shrine)",
+  "発": "hatsu, hotsu (departure, emit)",
+  "者": "sha, mono (person)",
+  "地": "chi, ji (earth, ground)",
+  "業": "gyou, gou, waza (business, arts, performance)",
+  "方": "hou, kata (direction, person, way)",
+  "新": "shin, atara, ara (new)",
+  "場": "jou, ba (place, scene)",
+  "員": "in (member, employee)",
+  "立": "ritsu, tatsu (stand up, establish)",
+  "開": "kai, a, hira (open, unfold)",
+  "手": "shu, te (hand)",
+  "力": "ryoku, riki, chikara (power, strength)",
+  "問": "mon, to (question, problem)",
+  "代": "dai, tai, ka (substitute, generation, price)",
+  "明": "mei, myou, aka (bright, light)",
+  "動": "dou, ugo (move, motion)",
+  "京": "kyou, kei (capital)",
+  "目": "moku, boku, me (eye)",
+  "通": "tsuu, tsu, tou (pass through, commute)",
+  "言": "gen, gon, i, koto (say, word)",
+  "理": "ri (logic, reason, truth)",
+  "体": "tai, tei, karada (body)",
+  "田": "den, ta (rice field)",
+  "主": "shu, su, nushi (master, principal)",
+  "題": "dai (topic, subject)",
+  "意": "i (idea, mind, heart)",
+  "不": "fu, bu (negative, non-)",
+  "作": "saku, sa, tsuku (make, prepare)",
+  "用": "you, mochi (utilize, business, service)",
+  "度": "do, to, tabi (degree, occurrence)",
+  "強": "kyou, gou, tsuyo (strong)",
+  "公": "kou, ou (public, prince)",
+  "持": "ji, mo (hold, have)",
+  "野": "ya, no (field, rustic)",
+  "以": "i (by means of, compared with)",
+  "思": "shi, omo (think)",
+  "家": "ka, ke, ie, ya (house, home)",
+  "世": "sei, se, yo (generation, world)",
+  "多": "ta, oo (many, frequent)",
+  "正": "sei, shou, tada (correct, justice)",
+  "安": "an, yasu (relax, cheap, low)",
+  "院": "in (institution, temple, mansion)",
+  "心": "shin, kokoro (heart, mind)",
+  "界": "kai (world, boundary)",
+  "教": "kyou, oshi (teach, faith)"
+};
+
+const kanjiContainer = document.getElementById("kanji-container");
+
+function shuffle(object) {
+    const array = Object.entries(object);
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return Object.fromEntries(array);
+}
+
+const shuffledKanji = shuffle(kanji);
+
+for (const char in shuffledKanji) {
+  const hindiReading = shuffledKanji[char]; // Get Hindi reading
+  const charDiv = document.createElement("div");
+  charDiv.classList.add("kanji-char");
+  charDiv.textContent = char;
+
+  const tooltipDiv = document.createElement("div");
+  tooltipDiv.classList.add("tooltip");
+  tooltipDiv.textContent = hindiReading; // Set Hindi reading as tooltip text
+  charDiv.appendChild(tooltipDiv);
+
+  kanjiContainer.appendChild(charDiv);
+}
+</script>
+
+</body>
+</html>
